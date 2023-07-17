@@ -28,13 +28,13 @@ double nelder_mead(double alpha = 1, double beta = 0.5, double gamma = 2, int n 
               [](const point& l, const point& r) { return l.val < r.val; });
 
     best = simplex.at(0);
-    auto good = simplex.at(1);
+    const auto good = simplex.at(1);
     auto worst = simplex.at(2);
 
     const auto mid = (best.vec + good.vec) / 2;
 
     // reflection
-    auto xr = point{mid + (mid - worst.vec) * alpha};
+    const auto xr = point{mid + (mid - worst.vec) * alpha};
 
     if (xr.val < good.val) {
       worst = xr;
