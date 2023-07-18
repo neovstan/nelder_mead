@@ -5,7 +5,8 @@
 
 #include "vector.hpp"
 
-class nelder_mead {
+namespace nelder_mead {
+class impl {
  public:
   using test_function_t = std::function<double(double, double, double)>;
 
@@ -21,7 +22,7 @@ class nelder_mead {
   };
 
  public:
-  nelder_mead(int dimension = 3, int n = 25, double alpha = 1, double beta = 0.5, double gamma = 2);
+  impl(int dimension = 3, int n = 25, double alpha = 1, double beta = 0.5, double gamma = 2);
 
   point run(test_function_t fn);
 
@@ -32,5 +33,6 @@ class nelder_mead {
   const double beta_;
   const double gamma_;
 };
+}  // namespace nelder_mead
 
 #endif  // NELDER_MEAD_H

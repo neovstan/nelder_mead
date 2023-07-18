@@ -1,17 +1,17 @@
-#include "nelder_mead.h"
+#include "impl.h"
 
 #include <algorithm>
 #include <stdexcept>
 #include <vector>
 
-nelder_mead::nelder_mead(int dimension, int n, double alpha, double beta, double gamma)
+nelder_mead::impl::impl(int dimension, int n, double alpha, double beta, double gamma)
     : dimension_{dimension}, n_{n}, alpha_{alpha}, beta_{beta}, gamma_{gamma} {
   if (dimension_ != 2 && dimension_ != 3) {
     throw std::runtime_error{"Dimension must be 2 or 3"};
   }
 }
 
-nelder_mead::point nelder_mead::run(test_function_t fn) {
+nelder_mead::impl::point nelder_mead::impl::run(test_function_t fn) {
   // 1. Preparing
   std::vector<point> simplex;
   simplex.push_back(point{{0, 0, 0}, fn});

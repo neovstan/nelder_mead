@@ -1,7 +1,7 @@
 #include <cmath>
 #include <iostream>
 
-#include "nelder_mead.h"
+#include <nelder_mead/impl.h>
 
 double himmelblau(double x, double y, double z) {
   return std::pow(std::pow(x, 2) + y - 11, 2) + std::pow(x + std::pow(y, 2) - 7, 2);
@@ -21,7 +21,7 @@ double beale(double x, double y, double z) {
 }
 
 int main() {
-  nelder_mead optimizer;
+  nelder_mead::impl optimizer;
   std::cout << optimizer.run(himmelblau).val << std::endl;
   std::cout << optimizer.run(mccormick).val << std::endl;
   std::cout << optimizer.run(matyas).val << std::endl;

@@ -1,6 +1,7 @@
-#ifndef VECTOR_HPP
-#define VECTOR_HPP
+#ifndef NELDER_MEAD_VECTOR_HPP
+#define NELDER_MEAD_VECTOR_HPP
 
+namespace nelder_mead {
 struct vector {
   double x;
   double y;
@@ -86,5 +87,6 @@ inline vector operator*(const vector& lhs, double rhs) {
 inline vector operator/(const vector& lhs, double rhs) {
   return {lhs.x / rhs, lhs.y / rhs, lhs.z / rhs};
 }
+}  // namespace nelder_mead
 
-#endif  // VECTOR_HPP
+#endif  // NELDER_MEAD_VECTOR_HPP
