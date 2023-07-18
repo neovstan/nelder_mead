@@ -42,7 +42,7 @@ nelder_mead::impl::point nelder_mead::impl::run(test_function_t fn) const {
 
     // 5. Expansion
     if (reflected_point.value < best_point.value) {
-      const auto expanded_point = point(centroid * (1 - gamma_) + reflected_point.vec * gamma_, fn);
+      const auto expanded_point = point{centroid * (1 - gamma_) + reflected_point.vec * gamma_, fn};
       simplex.at(dimension_) =
           expanded_point.value < reflected_point.value ? expanded_point : reflected_point;
       continue;
