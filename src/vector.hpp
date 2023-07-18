@@ -1,5 +1,5 @@
-#ifndef VECTOR_H
-#define VECTOR_H
+#ifndef VECTOR_HPP
+#define VECTOR_HPP
 
 struct vector {
   double x;
@@ -30,4 +30,4 @@ inline vector operator/(const vector& lhs, double rhs) {
   return {lhs.x / rhs, lhs.y / rhs};
 }
 
-#endif  // VECTOR_H
+#endif  // VECTOR_HPP
