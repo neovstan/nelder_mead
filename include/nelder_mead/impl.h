@@ -11,14 +11,14 @@ class impl {
   using test_function_t = std::function<double(double, double, double)>;
 
   struct point {
-    point() : vec{}, val{} {
+    point() : vec{}, value{} {
     }
 
-    point(const vector& v, test_function_t fn) : vec{v}, val{fn(v.x, v.y, v.z)} {
+    point(const vector& v, test_function_t fn) : vec{v}, value{fn(v.x, v.y, v.z)} {
     }
 
     vector vec;
-    double val;
+    double value;
   };
 
  public:

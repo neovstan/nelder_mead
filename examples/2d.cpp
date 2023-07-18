@@ -22,8 +22,8 @@ double beale(double x, double y, double z) {
 
 int main() {
   nelder_mead::impl optimizer;
-  std::cout << optimizer.run(himmelblau).val << std::endl;
-  std::cout << optimizer.run(mccormick).val << std::endl;
-  std::cout << optimizer.run(matyas).val << std::endl;
-  std::cout << optimizer.run(beale).val << std::endl;
+  std::cout << optimizer.run(himmelblau).value << std::endl;
+  std::cout << optimizer.run(mccormick).value << std::endl;
+  std::cout << optimizer.run(matyas).value << std::endl;
+  std::cout << optimizer.run(beale).value << std::endl;
 }
