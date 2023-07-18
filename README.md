@@ -6,6 +6,7 @@
 ##
 ###
 ```cpp
+#include <cmath>
 #include <iostream>
 #include <nelder_mead/impl.h>
 
