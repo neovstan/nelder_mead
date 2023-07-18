@@ -53,7 +53,7 @@ nelder_mead::impl::point nelder_mead::impl::run(test_function_t fn) const {
       continue;
     }
 
-    bool allow_shrinkage{};
+    auto allow_shrinkage = false;
 
     // 6. Contraction
     if ((good_point.value < reflected_point.value) && (reflected_point.value < worst_point.value)) {
