@@ -1,6 +1,9 @@
 # nelder_mead
 
 ### Implementation of the simplest and at the same time effective optimization method — [the Nelder—Mead method](https://en.wikipedia.org/wiki/Nelder%E2%80%93Mead_method)
+##
+![!](https://upload.wikimedia.org/wikipedia/commons/7/72/An-iteration-of-the-Nelder-Mead-method-over-two-dimensional-space-showing-point-p-min.png "An iteration of the Nelder-Mead method over two-dimensional space.")
+##
 ###
 ```cpp
 #include <iostream>
