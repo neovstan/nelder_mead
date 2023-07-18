@@ -2,8 +2,8 @@
 #define VECTOR_H
 
 struct vector {
-  double x{};
-  double y{};
+  double x;
+  double y;
 };
 
 inline vector operator+(const vector& lhs, const vector& rhs) {
