@@ -3,12 +3,12 @@
 #include <cmath>
 #include <iostream>
 
-#include "vector.h"
+#include "vector.hpp"
 
-double f(double x, double y);
+double himmelblau(double x, double y);
 
 double f(const vector& v) {
-  return f(v.x, v.y);
+  return himmelblau(v.x, v.y);
 }
 
 double nelder_mead(double alpha = 1, double beta = 0.5, double gamma = 2, int n = 10) {
@@ -75,8 +75,8 @@ double nelder_mead(double alpha = 1, double beta = 0.5, double gamma = 2, int n 
   return best.val;
 }
 
-double f(double x, double y) {
-  return std::pow(x, 2) + std::pow(y, 2) + x * y - 4 * x;
+double himmelblau(double x, double y) {
+  return std::pow(std::pow(x, 2) + y - 11, 2) + std::pow(x + std::pow(y, 2) - 7, 2);
 }
 
 int main() {
