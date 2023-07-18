@@ -24,7 +24,7 @@ nelder_mead::impl::point nelder_mead::impl::run(test_function_t fn) const {
   for (auto i = 0; i < n_; i++) {
     // 2. Order
     std::sort(simplex.begin(), simplex.end(),
-              [](const point& l, const point& r) { return l.value < r.value; });
+              [](const point& lhs, const point& rhs) { return lhs.value < rhs.value; });
 
     auto worst_point = simplex.at(dimension_);
     const auto good_point = simplex.at(dimension_ - 1);
