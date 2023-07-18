@@ -2,8 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 
 project(nelder_mead)
 
-add_executable(nelder_mead
-    src/main.cpp
+add_library(nelder_mead STATIC
     src/nelder_mead.cpp
     include/nelder_mead/nelder_mead.h
     include/nelder_mead/vector.hpp)
