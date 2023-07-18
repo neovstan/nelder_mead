@@ -11,7 +11,7 @@ nelder_mead::impl::impl(int dimension, int n, double alpha, double beta, double 
   }
 }
 
-nelder_mead::impl::point nelder_mead::impl::run(test_function_t fn) {
+nelder_mead::impl::point nelder_mead::impl::run(test_function_t fn) const {
   // 1. Preparing
   std::vector<point> simplex;
   simplex.push_back(point{{0, 0, 0}, fn});

@@ -24,7 +24,7 @@ class impl {
  public:
   impl(int dimension = 3, int n = 25, double alpha = 1, double beta = 0.5, double gamma = 2);
 
-  point run(test_function_t fn);
+  point run(test_function_t fn) const;
 
  private:
   const int dimension_;
