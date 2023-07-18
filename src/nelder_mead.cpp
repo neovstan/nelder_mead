@@ -1,73 +1,84 @@
 #include "nelder_mead.h"
 
 #include <algorithm>
+#include <stdexcept>
+#include <vector>
 
-#include "vector.hpp"
-
-nelder_mead::nelder_mead(double alpha, double beta, double gamma, int n)
-    : alpha_{alpha}, beta_{beta}, gamma_{gamma}, n_{n} {
+nelder_mead::nelder_mead(int dimension, int n, double alpha, double beta, double gamma)
+    : dimension_{dimension}, n_{n}, alpha_{alpha}, beta_{beta}, gamma_{gamma} {
+  if (dimension_ != 2 && dimension_ != 3) {
+    throw std::runtime_error{"Dimension must be 2 or 3"};
+  }
 }
 
-double nelder_mead::run(test_function_t f) {
-  struct point {
-    point(const vector& v, test_function_t f) : vec{v}, val{f(v.x, v.y)} {
-    }
+nelder_mead::point nelder_mead::run(test_function_t fn) {
+  // 1. Preparing
+  std::vector<point> simplex;
+  simplex.push_back(point{{0, 0, 0}, fn});
+  simplex.push_back(point{{0, 1, 0}, fn});
+  simplex.push_back(point{{0, 0, 2}, fn});
+  simplex.push_back(point{{1, 0, 1}, fn});
 
-    vector vec;
-    double val;
-  };
-
-  std::array<point, 3> simplex{point{{0, 0}, f}, {{1, 0}, f}, {{0, 1}, f}};
-  auto best = simplex.at(0);
+  point best_point;
 
   for (auto i = 0; i < n_; i++) {
+    // 2. Order
     std::sort(simplex.begin(), simplex.end(),
               [](const point& l, const point& r) { return l.val < r.val; });
 
-    best = simplex.at(0);
-    const auto good = simplex.at(1);
-    auto worst = simplex.at(2);
+    auto worst_point = simplex.at(dimension_);
+    const auto good_point = simplex.at(dimension_ - 1);
+    best_point = simplex.at(0);
 
-    const auto mid = (best.vec + good.vec) / 2;
+    // 3. Calculation of the simplex centroid
+    vector centroid{};
+    for (auto i = 0; i < dimension_; i++) {
+      centroid += simplex.at(i).vec;
+    }
+    centroid /= dimension_;
 
-    // reflection
-    const auto xr = point{mid + (mid - worst.vec) * alpha_, f};
+    // 4. Reflection
+    auto reflected_point = point{centroid * (1 + alpha_) - worst_point.vec * alpha_, fn};
 
-    if (xr.val < good.val) {
-      worst = xr;
-    } else {
-      if (xr.val < worst.val) {
-        worst = xr;
-      }
-
-      const auto xc = point{(worst.vec + mid) / 2, f};
-      if (xc.val < worst.val) {
-        worst = xc;
-      }
+    // 5. Expansion
+    if (reflected_point.val < best_point.val) {
+      const auto expanded_point = point(centroid * (1 - gamma_) + reflected_point.vec * gamma_, fn);
+      simplex.at(dimension_) =
+          expanded_point.val < reflected_point.val ? expanded_point : reflected_point;
+      continue;
     }
 
-    // expansion
-    if (xr.val < best.val) {
-      const auto xe = point{mid + (xr.vec - mid) * gamma_, f};
-      if (xe.val < xr.val) {
-        worst = xe;
+    if ((best_point.val < reflected_point.val) && (reflected_point.val < good_point.val)) {
+      simplex.at(dimension_) = reflected_point;
+      continue;
+    }
+
+    bool allow_shrinkage{};
+
+    // 6. Contraction
+    if ((good_point.val < reflected_point.val) && (reflected_point.val < worst_point.val)) {
+      simplex.at(dimension_) = reflected_point;
+      std::swap(reflected_point, worst_point);
+      allow_shrinkage = true;
+    }
+
+    if (!allow_shrinkage && worst_point.val < reflected_point.val) {
+      allow_shrinkage = true;
+    }
+
+    // 7. Shrinkage
+    if (allow_shrinkage) {
+      const auto shrinked_point = point{worst_point.vec * beta_ + centroid * (1 - beta_), fn};
+      if (shrinked_point.val < worst_point.val) {
+        simplex.at(dimension_) = shrinked_point;
+        worst_point = shrinked_point;
       } else {
-        worst = xr;
+        for (auto i = 0; i <= dimension_; i++) {
+          simplex.at(i) = point{best_point.vec + (simplex.at(i).vec - best_point.vec) / 2, fn};
+        }
       }
     }
-
-    // contraction
-    if (xr.val > good.val) {
-      const auto xc = point{mid + (worst.vec - mid) * beta_, f};
-      if (xc.val < worst.val) {
-        worst = xc;
-      }
-    }
-
-    simplex.at(0) = worst;
-    simplex.at(1) = good;
-    simplex.at(2) = best;
   }
 
-  return best.val;
+  return best_point;
 }
